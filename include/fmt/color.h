@@ -11,7 +11,6 @@
 #include "format.h"
 
 FMT_BEGIN_NAMESPACE
-FMT_BEGIN_EXPORT
 
 enum class color : uint32_t {
   alice_blue = 0xF0F8FF,               // rgb(240,248,255)
@@ -616,7 +615,6 @@ FMT_CONSTEXPR auto styled(const T& value, text_style ts)
   return detail::styled_arg<remove_cvref_t<T>>{value, ts};
 }
 
-FMT_END_EXPORT
 FMT_END_NAMESPACE
 
 #endif  // FMT_COLOR_H_

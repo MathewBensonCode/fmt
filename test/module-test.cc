@@ -40,7 +40,6 @@
 #  define FMT_POSIX(call) call
 #endif
 
-import fmt;
 
 // check for macros leaking from BMI
 static bool macro_leaked =
@@ -53,6 +52,7 @@ static bool macro_leaked =
 #define FMT_OS_H_  // don't pull in os.h, neither directly nor indirectly
 #include "gtest-extra.h"
 
+import fmt;
 // an implicitly exported namespace must be visible [module.interface]/2.2
 TEST(module_test, namespace) {
   using namespace fmt;

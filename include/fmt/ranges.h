@@ -781,7 +781,6 @@ struct formatter<
   }
 };
 
-FMT_BEGIN_EXPORT
 
 /**
   \rst
@@ -817,7 +816,6 @@ auto join(std::initializer_list<T> list, string_view sep)
   return join(std::begin(list), std::end(list), sep);
 }
 
-FMT_END_EXPORT
 FMT_END_NAMESPACE
 
 #endif  // FMT_RANGES_H_

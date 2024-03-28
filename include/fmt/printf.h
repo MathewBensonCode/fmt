@@ -14,7 +14,6 @@
 #include "format.h"
 
 FMT_BEGIN_NAMESPACE
-FMT_BEGIN_EXPORT
 
 template <typename T> struct printf_formatter {
   printf_formatter() = delete;
@@ -663,7 +662,6 @@ FMT_DEPRECATED inline auto printf(basic_string_view<wchar_t> fmt,
   return vfprintf(stdout, fmt, make_printf_args<wchar_t>(args...));
 }
 
-FMT_END_EXPORT
 FMT_END_NAMESPACE
 
 #endif  // FMT_PRINTF_H_

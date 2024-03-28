@@ -807,7 +807,6 @@ template <typename T>
 struct is_locale<T, void_t<decltype(T::classic())>> : std::true_type {};
 }  // namespace detail
 
-FMT_BEGIN_EXPORT
 
 // The number of characters to store in the basic_memory_buffer object itself
 // to avoid dynamic memory allocation.
@@ -953,13 +952,11 @@ template <typename T, size_t SIZE, typename Allocator>
 struct is_contiguous<basic_memory_buffer<T, SIZE, Allocator>> : std::true_type {
 };
 
-FMT_END_EXPORT
 namespace detail {
 FMT_API auto write_console(int fd, string_view text) -> bool;
 FMT_API void print(std::FILE*, string_view);
 }  // namespace detail
 
-FMT_BEGIN_EXPORT
 
 // Suppress a misleading warning in older versions of clang.
 #if FMT_CLANG_VERSION
@@ -4233,8 +4230,6 @@ inline auto to_string(const T& value) -> std::string {
   return to_string(format_as(value));
 }
 
-FMT_END_EXPORT
-
 namespace detail {
 
 template <typename Char>
@@ -4305,8 +4300,6 @@ void vformat_to(buffer<Char>& buf, basic_string_view<Char> fmt,
   };
   detail::parse_format_string<false>(fmt, format_handler(out, fmt, args, loc));
 }
-
-FMT_BEGIN_EXPORT
 
 #ifndef FMT_HEADER_ONLY
 extern template FMT_API void vformat_to(buffer<char>&, string_view,
@@ -4408,8 +4401,6 @@ FMT_NODISCARD FMT_INLINE auto formatted_size(const Locale& loc,
                            detail::locale_ref(loc));
   return buf.count();
 }
-
-FMT_END_EXPORT
 
 template <typename T, typename Char>
 template <typename FormatContext>

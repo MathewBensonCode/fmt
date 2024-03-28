@@ -253,12 +253,6 @@
     }
 #endif
 
-#ifndef FMT_EXPORT
-#  define FMT_EXPORT
-#  define FMT_BEGIN_EXPORT
-#  define FMT_END_EXPORT
-#endif
-
 #if !defined(FMT_HEADER_ONLY) && defined(_WIN32)
 #  if defined(FMT_LIB_EXPORT)
 #    define FMT_API __declspec(dllexport)
@@ -432,8 +426,8 @@ template <typename Char> FMT_CONSTEXPR auto length(const Char* s) -> size_t {
 }
 
 template <typename Char>
-FMT_CONSTEXPR auto compare(const Char* s1, const Char* s2, std::size_t n)
-    -> int {
+FMT_CONSTEXPR auto compare(const Char* s1, const Char* s2,
+                           std::size_t n) -> int {
   for (; n != 0; ++s1, ++s2, --n) {
     if (*s1 < *s2) return -1;
     if (*s1 > *s2) return 1;
@@ -471,7 +465,6 @@ template <typename T> struct is_contiguous : std::false_type {};
   compiled with a different ``-std`` option than the client code (which is not
   recommended).
  */
-FMT_EXPORT
 template <typename Char> class basic_string_view {
  private:
   const Char* data_;
@@ -569,11 +562,9 @@ template <typename Char> class basic_string_view {
   }
 };
 
-FMT_EXPORT
 using string_view = basic_string_view<char>;
 
 /** Specifies if ``T`` is a character type. Can be specialized by users. */
-FMT_EXPORT
 template <typename T> struct is_char : std::false_type {};
 template <> struct is_char<char> : std::true_type {};
 
@@ -714,7 +705,6 @@ using char_t = typename V::value_type;
   You can use the ``format_parse_context`` type alias for ``char`` instead.
   \endrst
  */
-FMT_EXPORT
 template <typename Char> class basic_format_parse_context {
  private:
   basic_string_view<Char> format_str_;
@@ -780,7 +770,6 @@ template <typename Char> class basic_format_parse_context {
   FMT_CONSTEXPR void check_dynamic_spec(int arg_id);
 };
 
-FMT_EXPORT
 using format_parse_context = basic_format_parse_context<char>;
 
 namespace detail {
@@ -1111,12 +1100,11 @@ FMT_CONSTEXPR void basic_format_parse_context<Char>::check_dynamic_spec(
   }
 }
 
-FMT_EXPORT template <typename Context> class basic_format_arg;
-FMT_EXPORT template <typename Context> class basic_format_args;
-FMT_EXPORT template <typename Context> class dynamic_format_arg_store;
+template <typename Context> class basic_format_arg;
+template <typename Context> class basic_format_args;
+template <typename Context> class dynamic_format_arg_store;
 
 // A formatter for objects of type T.
-FMT_EXPORT
 template <typename T, typename Char = char, typename Enable = void>
 struct formatter {
   // A deleted default constructor indicates a disabled formatter.
@@ -1689,7 +1677,6 @@ struct format_arg_store<Context, NUM_ARGS, 0, DESC> {
 };
 
 }  // namespace detail
-FMT_BEGIN_EXPORT
 
 // A formatting argument. Context is a template parameter for the compiled API
 // where output can be unbuffered.
@@ -2035,12 +2022,11 @@ inline auto arg(const Char* name, const T& arg) -> detail::named_arg<Char, T> {
   static_assert(!detail::is_named_arg<T>(), "nested named arguments");
   return {name, arg};
 }
-FMT_END_EXPORT
 
 /** An alias to ``basic_format_args<format_context>``. */
 // A separate type would result in shorter symbols but break ABI compatibility
 // between clang and gcc on ARM (#1919).
-FMT_EXPORT using format_args = basic_format_args<format_context>;
+using format_args = basic_format_args<format_context>;
 
 // We cannot use enum classes as bit fields because of a gcc bug, so we put them
 // in namespaces instead (https://gcc.gnu.org/bugzilla/show_bug.cgi?id=61414).
@@ -2052,12 +2038,17 @@ FMT_EXPORT using format_args = basic_format_args<format_context>;
 #  define FMT_ENUM_UNDERLYING_TYPE(type) : type
 #endif
 namespace align {
-enum type FMT_ENUM_UNDERLYING_TYPE(unsigned char){none, left, right, center,
-                                                  numeric};
+enum type FMT_ENUM_UNDERLYING_TYPE(unsigned char) {
+  none,
+  left,
+  right,
+  center,
+  numeric
+};
 }
 using align_t = align::type;
 namespace sign {
-enum type FMT_ENUM_UNDERLYING_TYPE(unsigned char){none, minus, plus, space};
+enum type FMT_ENUM_UNDERLYING_TYPE(unsigned char) { none, minus, plus, space };
 }
 using sign_t = sign::type;
 
@@ -2329,10 +2320,9 @@ template <typename Char> struct dynamic_spec_id_handler {
 
 // Parses [integer | "{" [arg_id] "}"].
 template <typename Char>
-FMT_CONSTEXPR auto parse_dynamic_spec(const Char* begin, const Char* end,
-                                      int& value, arg_ref<Char>& ref,
-                                      basic_format_parse_context<Char>& ctx)
-    -> const Char* {
+FMT_CONSTEXPR auto parse_dynamic_spec(
+    const Char* begin, const Char* end, int& value, arg_ref<Char>& ref,
+    basic_format_parse_context<Char>& ctx) -> const Char* {
   FMT_ASSERT(begin != end, "");
   if ('0' <= *begin && *begin <= '9') {
     int val = parse_nonnegative_int(begin, end, -1);
@@ -2351,10 +2341,9 @@ FMT_CONSTEXPR auto parse_dynamic_spec(const Char* begin, const Char* end,
 }
 
 template <typename Char>
-FMT_CONSTEXPR auto parse_precision(const Char* begin, const Char* end,
-                                   int& value, arg_ref<Char>& ref,
-                                   basic_format_parse_context<Char>& ctx)
-    -> const Char* {
+FMT_CONSTEXPR auto parse_precision(
+    const Char* begin, const Char* end, int& value, arg_ref<Char>& ref,
+    basic_format_parse_context<Char>& ctx) -> const Char* {
   ++begin;
   if (begin == end || *begin == '}') {
     report_error("invalid precision");
@@ -2646,8 +2635,8 @@ template <typename T> struct strip_named_arg<T, true> {
 
 template <typename T, typename ParseContext>
 FMT_VISIBILITY("hidden")  // Suppress an ld warning on macOS (#3769).
-FMT_CONSTEXPR auto parse_format_specs(ParseContext& ctx)
-    -> decltype(ctx.begin()) {
+FMT_CONSTEXPR
+    auto parse_format_specs(ParseContext& ctx) -> decltype(ctx.begin()) {
   using char_type = typename ParseContext::char_type;
   using context = buffered_context<char_type>;
   using mapped_type = conditional_t<
@@ -2745,8 +2734,8 @@ template <typename Char, typename... Args> class format_string_checker {
     on_format_specs(id, begin, begin);  // Call parse() on empty specs.
   }
 
-  FMT_CONSTEXPR auto on_format_specs(int id, const Char* begin, const Char*)
-      -> const Char* {
+  FMT_CONSTEXPR auto on_format_specs(int id, const Char* begin,
+                                     const Char*) -> const Char* {
     context_.advance_to(begin);
     // id >= 0 check is a workaround for gcc 10 bug (#2065).
     return id >= 0 && id < num_args ? parse_funcs_[id](context_) : begin;
@@ -2799,8 +2788,6 @@ inline void vprint_mojibake(FILE*, string_view, format_args, bool) {}
 #endif
 }  // namespace detail
 
-FMT_BEGIN_EXPORT
-
 // A formatter specialization for natively supported types.
 template <typename T, typename Char>
 struct formatter<T, Char,
@@ -2831,8 +2818,8 @@ struct formatter<T, Char,
   }
 
   template <typename FormatContext>
-  FMT_CONSTEXPR auto format(const T& val, FormatContext& ctx) const
-      -> decltype(ctx.out());
+  FMT_CONSTEXPR auto format(const T& val,
+                            FormatContext& ctx) const -> decltype(ctx.out());
 };
 
 template <typename Char = char> struct runtime_format_string {
@@ -2898,8 +2885,8 @@ inline auto runtime(string_view s) -> runtime_format_string<> { return {{s}}; }
 template <typename OutputIt,
           FMT_ENABLE_IF(detail::is_output_iterator<remove_cvref_t<OutputIt>,
                                                    char>::value)>
-auto vformat_to(OutputIt&& out, string_view fmt, format_args args)
-    -> remove_cvref_t<OutputIt> {
+auto vformat_to(OutputIt&& out, string_view fmt,
+                format_args args) -> remove_cvref_t<OutputIt> {
   auto&& buf = detail::get_buffer<char>(out);
   detail::vformat_to(buf, fmt, args, {});
   return detail::get_iterator(buf, out);
@@ -2920,8 +2907,8 @@ auto vformat_to(OutputIt&& out, string_view fmt, format_args args)
 template <typename OutputIt, typename... T,
           FMT_ENABLE_IF(detail::is_output_iterator<remove_cvref_t<OutputIt>,
                                                    char>::value)>
-FMT_INLINE auto format_to(OutputIt&& out, format_string<T...> fmt, T&&... args)
-    -> remove_cvref_t<OutputIt> {
+FMT_INLINE auto format_to(OutputIt&& out, format_string<T...> fmt,
+                          T&&... args) -> remove_cvref_t<OutputIt> {
   return vformat_to(FMT_FWD(out), fmt, fmt::make_format_args(args...));
 }
 
@@ -2934,8 +2921,8 @@ template <typename OutputIt> struct format_to_n_result {
 
 template <typename OutputIt, typename... T,
           FMT_ENABLE_IF(detail::is_output_iterator<OutputIt, char>::value)>
-auto vformat_to_n(OutputIt out, size_t n, string_view fmt, format_args args)
-    -> format_to_n_result<OutputIt> {
+auto vformat_to_n(OutputIt out, size_t n, string_view fmt,
+                  format_args args) -> format_to_n_result<OutputIt> {
   using traits = detail::fixed_buffer_traits;
   auto buf = detail::iterator_buffer<OutputIt, char, traits>(out, n);
   detail::vformat_to(buf, fmt, args, {});
@@ -2972,14 +2959,14 @@ struct format_to_result {
 };
 
 template <size_t N>
-auto vformat_to(char (&out)[N], string_view fmt, format_args args)
-    -> format_to_result<char*> {
+auto vformat_to(char (&out)[N], string_view fmt,
+                format_args args) -> format_to_result<char*> {
   return {vformat_to_n(out, N, fmt, args).out, out + N};
 }
 
 template <size_t N, typename... T>
-FMT_INLINE auto format_to(char (&out)[N], format_string<T...> fmt, T&&... args)
-    -> format_to_result<char*> {
+FMT_INLINE auto format_to(char (&out)[N], format_string<T...> fmt,
+                          T&&... args) -> format_to_result<char*> {
   return vformat_to(out, fmt, fmt::make_format_args(args...));
 }
 
@@ -3053,7 +3040,6 @@ FMT_INLINE void println(format_string<T...> fmt, T&&... args) {
   return fmt::println(stdout, fmt, static_cast<T&&>(args)...);
 }
 
-FMT_END_EXPORT
 FMT_GCC_PRAGMA("GCC pop_options")
 FMT_END_NAMESPACE
 

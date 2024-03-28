@@ -56,6 +56,10 @@ function(add_fmt_test name)
 endfunction()
 
 if (FMT_MODULE)
+   set(CMAKE_CXX_STANDARD 23)
+   set(CMAKE_CXX_EXTENSIONS OFF)
+   set(CMAKE_CXX_STANDARD_REQUIRED ON)
+  add_fmt_test(module-test)
   return ()
 endif ()
 
