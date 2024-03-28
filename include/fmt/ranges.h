@@ -799,7 +799,6 @@ struct formatter<
   }
 };
 
-FMT_BEGIN_EXPORT
 
 /**
  * Returns an object that formats `std::tuple` with elements separated by `sep`.
@@ -831,7 +830,6 @@ auto join(std::initializer_list<T> list, string_view sep)
   return join(std::begin(list), std::end(list), sep);
 }
 
-FMT_END_EXPORT
 FMT_END_NAMESPACE
 
 #endif  // FMT_RANGES_H_

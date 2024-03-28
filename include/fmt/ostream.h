@@ -159,7 +159,7 @@ inline void vprint_directly(std::ostream& os, string_view format_str,
 
 }  // namespace detail
 
-FMT_EXPORT template <typename Char>
+template <typename Char>
 void vprint(std::basic_ostream<Char>& os,
             basic_string_view<type_identity_t<Char>> format_str,
             typename detail::vformat_args<Char>::type args) {
@@ -176,7 +176,7 @@ void vprint(std::basic_ostream<Char>& os,
  *
  *     fmt::print(cerr, "Don't {}!", "panic");
  */
-FMT_EXPORT template <typename... T>
+template <typename... T>
 void print(std::ostream& os, format_string<T...> fmt, T&&... args) {
   const auto& vargs = fmt::make_format_args(args...);
   if (detail::use_utf8())
@@ -185,7 +185,7 @@ void print(std::ostream& os, format_string<T...> fmt, T&&... args) {
     detail::vprint_directly(os, fmt, vargs);
 }
 
-FMT_EXPORT
+
 template <typename... Args>
 void print(std::wostream& os,
            basic_format_string<wchar_t, type_identity_t<Args>...> fmt,
@@ -193,12 +193,12 @@ void print(std::wostream& os,
   vprint(os, fmt, fmt::make_format_args<buffered_context<wchar_t>>(args...));
 }
 
-FMT_EXPORT template <typename... T>
+template <typename... T>
 void println(std::ostream& os, format_string<T...> fmt, T&&... args) {
   fmt::print(os, "{}\n", fmt::format(fmt, std::forward<T>(args)...));
 }
 
-FMT_EXPORT
+
 template <typename... Args>
 void println(std::wostream& os,
              basic_format_string<wchar_t, type_identity_t<Args>...> fmt,

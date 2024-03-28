@@ -1,4 +1,4 @@
-// Formatting library for C++ - experimental format string compilation
+// Formatting library for C++ - experimental format string compilationformat.cc
 //
 // Copyright (c) 2012 - present, Victor Zverovich and fmt contributors
 // All rights reserved.
@@ -419,8 +419,6 @@ constexpr auto compile(S fmt) {
 #endif  // defined(__cpp_if_constexpr) && defined(__cpp_return_type_deduction)
 }  // namespace detail
 
-FMT_BEGIN_EXPORT
-
 #if defined(__cpp_if_constexpr) && defined(__cpp_return_type_deduction)
 
 template <typename CompiledFormat, typename... Args,
@@ -523,7 +521,6 @@ template <detail_exported::fixed_string Str> constexpr auto operator""_cf() {
 }  // namespace literals
 #endif
 
-FMT_END_EXPORT
 FMT_END_NAMESPACE
 
 #endif  // FMT_COMPILE_H_

@@ -162,24 +162,24 @@ option(FMT_MODULE "Build a module instead of a traditional library." OFF)
 option(FMT_SYSTEM_HEADERS "Expose headers with marking them as system." OFF)
 option(FMT_UNICODE "Enable Unicode support." ON)
 
-if (FMT_TEST AND FMT_MODULE)
+if(FMT_TEST AND FMT_MODULE)
   # The tests require {fmt} to be compiled as traditional library
   message(STATUS "Testing is incompatible with build mode 'module'.")
-endif ()
+endif()
 set(FMT_SYSTEM_HEADERS_ATTRIBUTE "")
-if (FMT_SYSTEM_HEADERS)
+if(FMT_SYSTEM_HEADERS)
   set(FMT_SYSTEM_HEADERS_ATTRIBUTE SYSTEM)
-endif ()
-if (CMAKE_SYSTEM_NAME STREQUAL "MSDOS")
+endif()
+if(CMAKE_SYSTEM_NAME STREQUAL "MSDOS")
   set(FMT_TEST OFF)
   message(STATUS "MSDOS is incompatible with gtest")
-endif ()
+endif()
 
 # Get version from base.h
 file(READ include/fmt/base.h base_h)
-if (NOT base_h MATCHES "FMT_VERSION ([0-9]+)([0-9][0-9])([0-9][0-9])")
+if(NOT base_h MATCHES "FMT_VERSION ([0-9]+)([0-9][0-9])([0-9][0-9])")
   message(FATAL_ERROR "Cannot get FMT_VERSION from base.h.")
-endif ()
+endif()
 # Use math to skip leading zeros if any.
 math(EXPR CPACK_PACKAGE_VERSION_MAJOR ${CMAKE_MATCH_1})
 math(EXPR CPACK_PACKAGE_VERSION_MINOR ${CMAKE_MATCH_2})
@@ -253,7 +253,7 @@ endif ()
 if (MSVC)
   set(PEDANTIC_COMPILE_FLAGS /W3)
   set(WERROR_FLAG /WX)
-endif ()
+endif()
 
 if (FMT_MASTER_PROJECT AND CMAKE_GENERATOR MATCHES "Visual Studio")
   # If Microsoft SDK is installed create script run-msbuild.bat that
@@ -263,7 +263,7 @@ if (FMT_MASTER_PROJECT AND CMAKE_GENERATOR MATCHES "Visual Studio")
   include(FindSetEnv)
   if (WINSDK_SETENV)
     set(MSBUILD_SETUP "call \"${WINSDK_SETENV}\"")
-  endif ()
+  endif()
   # Set FrameworkPathOverride to get rid of MSB3644 warnings.
   join(netfxpath
        "C:\\Program Files\\Reference Assemblies\\Microsoft\\Framework\\"
@@ -287,13 +287,24 @@ add_headers(FMT_HEADERS args.h base.h chrono.h color.h compile.h core.h format.h
                         xchar.h)
 set(FMT_SOURCES src/format.cc)
 
-add_module_library(fmt src/fmt.cc FALLBACK
-                   ${FMT_SOURCES} ${FMT_HEADERS} README.md ChangeLog.md
-                   IF FMT_MODULE)
-add_library(fmt::fmt ALIAS fmt)
-if (FMT_MODULE)
-  enable_module(fmt)
-elseif (FMT_OS)
+if(FMT_MODULE)
+  add_subdirectory(src/modules)
+  add_library(fmt::fmt ALIAS fmt)
+else()
+
+  add_module_library(
+    fmt
+    src/fmt.cc
+    FALLBACK
+    ${FMT_SOURCES}
+    ${FMT_HEADERS}
+    README.md
+    ChangeLog.md
+    IF
+    FMT_MODULE)
+endif()
+
+if(FMT_OS)
   target_sources(fmt PRIVATE src/os.cc)
 else()
   target_compile_definitions(fmt PRIVATE FMT_OS=0)

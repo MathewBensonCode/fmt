@@ -56,8 +56,6 @@ inline auto write_loc(basic_appender<wchar_t> out, loc_value value,
 }
 }  // namespace detail
 
-FMT_BEGIN_EXPORT
-
 using wstring_view = basic_string_view<wchar_t>;
 using wformat_parse_context = basic_format_parse_context<wchar_t>;
 using wformat_context = buffered_context<wchar_t>;
@@ -317,7 +315,6 @@ FMT_DEPRECATED void print(const text_style& ts, wformat_string<T...> fmt,
 template <typename T> inline auto to_wstring(const T& value) -> std::wstring {
   return format(FMT_STRING(L"{}"), value);
 }
-FMT_END_EXPORT
 FMT_END_NAMESPACE
 
 #endif  // FMT_XCHAR_H_

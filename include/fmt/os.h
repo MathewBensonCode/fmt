@@ -76,7 +76,6 @@
 #define FMT_RETRY(result, expression) FMT_RETRY_VAL(result, expression, -1)
 
 FMT_BEGIN_NAMESPACE
-FMT_BEGIN_EXPORT
 
 /**
  * A reference to a null-terminated string. It can be constructed from a C
@@ -435,7 +434,6 @@ inline auto output_file(cstring_view path, T... params) -> ostream {
 }
 #endif  // FMT_USE_FCNTL
 
-FMT_END_EXPORT
 FMT_END_NAMESPACE
 
 #endif  // FMT_OS_H_
