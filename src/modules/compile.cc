@@ -13,13 +13,9 @@ export module fmt.compile;
 
 export namespace fmt {
 
-#if defined(__cpp_if_constexpr) && defined(__cpp_return_type_deduction)
-
 using fmt::format;
 
 using fmt::format_to;
-
-#endif
 
 using fmt::format_to_n;
 

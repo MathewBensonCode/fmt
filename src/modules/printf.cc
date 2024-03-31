@@ -18,39 +18,6 @@ export {
 
   using fmt::basic_printf_context;
 
-  namespace detail {
-
-  using fmt::detail::int_checker;
-
-  using fmt::detail::printf_precision_handler;
-
-  using fmt::detail::is_zero_int;
-
-  using fmt::detail::make_unsigned_or_bool;
-
-  using fmt::detail::arg_converter;
-
-  using fmt::detail::convert_arg;
-
-  using fmt::detail::char_converter;
-
-  using fmt::detail::get_cstring;
-
-  using fmt::detail::printf_width_handler;
-
-  using fmt::detail::make_arg_formatter;
-
-  using fmt::detail::printf_arg_formatter;
-
-  using fmt::detail::parse_flags;
-
-  using fmt::detail::parse_header;
-
-  using fmt::detail::parse_printf_presentation_type;
-
-  using fmt::detail::vprintf;
-  }  // namespace detail
-
   using fmt::printf_context;
   using fmt::wprintf_context;
 

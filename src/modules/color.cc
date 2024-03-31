@@ -11,59 +11,33 @@ module;
 
 export module fmt.color;
 
-export {
-  namespace fmt {
+export namespace fmt {
 
-  using fmt::color;
+using fmt::color;
 
-  using fmt::terminal_color;
+using fmt::terminal_color;
 
-  using fmt::emphasis;
+using fmt::emphasis;
 
-  using fmt::rgb;
+using fmt::rgb;
 
-  namespace detail {
+using fmt::text_style;
 
-  using fmt::detail::color_type;
+using fmt::fg;
 
-  }  // namespace detail
+using fmt::bg;
 
-  using fmt::text_style;
+using fmt::vprint;
 
-  using fmt::fg;
+using fmt::print;
 
-  using fmt::bg;
+using fmt::vformat;
 
-  namespace detail {
+using fmt::format;
 
-  using fmt::detail::ansi_color_escape;
+using fmt::format_to;
 
-  using fmt::detail::make_foreground_color;
+using fmt::formatter;
 
-  using fmt::detail::make_background_color;
-
-  using fmt::detail::make_emphasis;
-
-  using fmt::detail::reset_color;
-
-  using fmt::detail::styled_arg;
-
-  using fmt::detail::vformat_to;
-
-  }  // namespace detail
-
-  using fmt::vprint;
-
-  using fmt::print;
-
-  using fmt::vformat;
-
-  using fmt::format;
-
-  using fmt::format_to;
-
-  using fmt::formatter;
-
-  using fmt::styled;
-  }  // namespace fmt
+using fmt::styled;
 }  // namespace fmt

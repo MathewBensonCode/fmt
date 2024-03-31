@@ -10,12 +10,10 @@ module;
 
 export module fmt.ranges;
 
-export {
-  namespace fmt {
+export namespace fmt {
 
-  using fmt::formatter;
+using fmt::formatter;
 
-  using fmt::join;
+using fmt::join;
 
-  }  // namespace fmt
-}
+}  // namespace fmt
