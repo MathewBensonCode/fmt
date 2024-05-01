@@ -331,6 +331,10 @@ set(FMT_SOURCES src/format.cc)
 
 if(FMT_MODULE)
   add_subdirectory(src/modules)
+  target_sources(fmt PRIVATE src/format.cc src/os.cc)
+  target_include_directories(fmt PUBLIC include)
+  get_target_property(modulelocation fmt BINARY_DIR)
+  # target_compile_options( fmt PUBLIC /reference ${modulelocation}/CMakeFiles/fmt.dir/fmt.ifc)
   add_library(fmt::fmt ALIAS fmt)
 else()
 

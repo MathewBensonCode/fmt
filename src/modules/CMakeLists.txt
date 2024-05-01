@@ -9,21 +9,7 @@ endif()
 
 add_library(fmt)
 
-target_include_directories(fmt PUBLIC ${PROJECT_DIR}/include)
-
 get_target_property(modulelocation fmt BINARY_DIR)
-
-if(${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
-target_compile_options(
-    fmt PUBLIC -fprebuilt-module-path=${modulelocation}/CMakeFiles/fmt.dir
-  )
-endif()
-
-if(${CMAKE_CXX_COMPILER_ID} MATCHES "MSVC")
-target_compile_options(
-    fmt PUBLIC /reference ifcSearchDir=${modulelocation}/CMakeFiles/fmt.dir
-  )
-endif()
 
 target_sources(
   fmt
