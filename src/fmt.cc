@@ -134,10 +134,13 @@ extern "C++" {
 }
 #endif
 
+/*Clang raising an error on this section due to module directive
+ * in preprocessor macro
 // gcc doesn't yet implement private module fragments
 #if !FMT_GCC_VERSION
 module :private;
 #endif
+*/
 
 #ifdef FMT_ATTACH_TO_GLOBAL_MODULE
 extern "C++" {

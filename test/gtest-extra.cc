@@ -5,6 +5,11 @@
 //
 // For the license information refer to format.h.
 
+#ifdef FMT_MODULE_TEST
+  import fmt;
+#define FMT_OS_H_ //skip loading of fmt/os.h
+#endif
+
 #include "gtest-extra.h"
 
 #if FMT_USE_FCNTL
