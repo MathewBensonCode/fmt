@@ -1,13 +1,13 @@
 name: doc
 
-on: [push, pull_request]
+on: [ pull_request]
 
 permissions:
   contents: read
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
     - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
